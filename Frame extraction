@@ -1,0 +1,27 @@
+//Frame Extraction from Video
+//A video is composed of multiple frames. These frames are sequence 	of images that are captured at specific frame rate.  Frame extraction 	from a video is used in various motion detection techniques and 	moving object detection. The moving object and motion can be 	detected by perform frame differencing either in consecutive frames 	or a stationary frame.
+//To read a video in Python, VideoCapture(‘video name') 	function can be used. This function will return multimedia reader 	object. We can extract frames by using this object.
+
+import numpy as np
+import cv2
+import matplotlib
+import matplotlib.pyplot as plt
+import signal
+	
+cap=cv2.VideoCapture(r'Normal_atm/1.mp4')     //Reading a video
+i=0
+while True:
+    ret,frame=cap.read()        		//Reading the frames
+    cv2.imwrite('G:\Normal_frame'+str(i)+'.jpg',frame)
+    i+=1  			
+      cv2.imshow('frame',frame)
+   cv2.imwrite(filename, frame)
+   key=cv2.waitKey(1)
+   if key == ord('q'):
+       break
+           
+cap.release()
+cv2.destroyAllWindows()
+
+//The above program will read a video and extracts frames and stores these frames in the disk.
+
