@@ -1,0 +1,33 @@
+//Labelling the images as usual and unusual
+
+LABELS = set(["USUAL" , "UNUSUAL"])
+imagePaths = sorted(list(paths.list_images(r'/home/itm1138/Downloads/ATM_frames')))
+data = []
+labels = []
+
+
+//READING FRAMES FROM THE DISK
+
+for imagePath in imagePaths:
+    label = imagePath.split(os.path.sep)[-2]
+    if label not in LABELS:
+        continue
+    image = cv2.imread(imagePath)
+#  image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)       **Converting image to RGB(colored image of 3D)**
+    image = cv2.resize(image, (32, 32))
+    data.append(image)
+    labels.append(label)
+#  data = np.array(data)
+#  labels = np.array(labels)
+
+lb = LabelBinarizer()
+labels = lb.fit_transform(labels)
+
+data = np.array(data, dtype="float") / 255.0
+# labels = np.array(labels, dtype="float") / 255.0
+save("atm_data.npy",data)
+save("atm_labels.npy",labels)
+print(data.shape)
+print(labels.shape)
+
+ 
