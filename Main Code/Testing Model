@@ -1,0 +1,38 @@
+#TESTING MODEL
+
+#Prediction using Neural Network
+
+import cv2
+import matplotlib.pyplot as plt
+from keras.models import load_model
+
+label = ["USUAL", "UNUSUAL"]
+model = load_model('/home/itm1138/Downloads/atm_frame_model.h5')
+cap = cv2.VideoCapture('/home/itm1138/Downloads/Videos_atm/Steal_atm/5.mp4')
+
+while True:
+    _, samp = cap.read()
+    #samp = cv2.rotate(samp, cv2.ROTATE_90_CLOCKWISE)
+    #samp = cv2.rotate(samp, cv2.ROTATE_90_COUNTERCLOCKWISE)
+    image = cv2.resize(samp, (32,32))
+    image = image.astype("float") / 255.0
+    image= image.reshape(1, 32, 32, 3)
+    answer = model.predict(image)
+    i = answer.argmax(axis=1)[0]
+    font = cv2.FONT_HERSHEY_SIMPLEX 
+  
+    # Use putText() method for 
+    # inserting text on video 
+    cv2.putText(samp,  
+                label[int(i)],
+                (50, 50),  
+                font, 1,  
+                (0, 0, 255),  
+                3,  
+                cv2.LINE_4) 
+    image = cv2.resize(samp, (32,32))    
+    cv2.imshow('video', samp) 
+    if cv2.waitKey(1) & 0xFF == ord('q'): 
+        break
+cap.release() 
+cv2.destroyAllWindows() 
